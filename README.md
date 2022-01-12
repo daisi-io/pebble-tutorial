@@ -59,9 +59,10 @@ And let's try calling the endpoint from our browser.
 We can also deploy multiple functions from a single
 script. When a script contains multiple function
 definitions, the platform creates web services
-("endpoints") for each function whose name does not begin with an underscore (`_`) character.
+("endpoints") for each top-level function whose name
+does not begin with an underscore (`_`) character.
 
-The Pebbles platform will also automatically install and use many external packages from PyPI (the Python Package Index). 
+The Pebbles platform will also automatically install and use most external packages from PyPI (the Python Package Index, the source for `pip` packages). 
 
 Create a pebble from the `02_summarystats.py` file in
 the tutorial repository's `main` branch and see that
