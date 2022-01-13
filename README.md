@@ -21,7 +21,7 @@ locally and seeing what happens.
 
 Let's deploy and run a Python function as a web service.
 
-Take a look at the code of `ex01_hello.py`. It contains a function `hello`:
+Take a look at the code of `ex01_hello.py`. It contains a function `hello()`:
 ```python
 def hello(name=None):
     if not name:
@@ -61,7 +61,7 @@ And let's try calling the endpoint.
 
 ...
 
-## Multiple functions and external modules
+## External modules and complex data
 
 We can also deploy multiple functions from a single
 script. When a script contains multiple function
@@ -80,7 +80,7 @@ information about passengers on the Titanic. (Data
 originally sourced from the
 [pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).)
 It then provides functions to return the mean, median
-and percentile of numeric fields using functions from
+and percentile of numeric fields as well as the 10 oldests passengers using functions from
 `pandas`. 
 ```python
 import pandas as pd
@@ -96,11 +96,13 @@ def median(field="Age"):
 
 def percentile(field="Age", percentile=[.25, .5, .75]):
     return titanic[field].quantile(percentile)
+
+def oldest():
+    return titanic.sort_values(by="Age",ascending=False).head(10)
 ```
 
-Create a new Pebble from the script, and you'll be able to test the mean, median, and percentile
-functions by calling them on the `Age` field (default)
-or on the `Fare` field.
+Create a new Pebble from the script, and you'll be able to test the `mean()`, `median()`, and `percentile()`
+functions. These functions only return a single value. Now try running the `oldest()` function. This returns a complete table of data, which the Pebbles platform UI intelligently detects and displays.
 
 
 ## Deploying and running a statistical model
