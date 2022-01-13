@@ -4,12 +4,12 @@ import pandas as pd
 titanic = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/titanic.csv")
 
 def mean(field="Age"):
-    return titanic[field].mean()
+    return float(titanic[field].mean())
 
 def median(field="Age"):
     return titanic[field].median()
 
-def percentile(field="Age", percentile=[.25, .5, .75]):
+def percentile(field="Age", percentile=[0.25, 0.5, 0.75]):
     return titanic[field].quantile(percentile)
 
 def oldest():
