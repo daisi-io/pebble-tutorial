@@ -11,3 +11,6 @@ def median(field="Age"):
 
 def percentile(field="Age", percentile=[.25, .5, .75]):
     return titanic[field].quantile(percentile)
+
+def oldest():
+    return titanic.sort_values(by="Age",ascending=False).head(10)
