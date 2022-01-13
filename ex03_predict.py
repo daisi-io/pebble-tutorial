@@ -4,7 +4,7 @@ import pandas as pd
 import statsmodels.api as sm
 
 # load data file and select and clean data
-data = pd.read_csv('https://raw.githubusercontent.com/gkanapathy/pebble-tutorial/main/data/transistor_data.csv')
+data = pd.read_csv('https://belmonttutorial.blob.core.windows.net/data/transistor_data.csv')
 
 x = data['Date of Introduction'].tolist()
 yl = [math.log10(c) for c in data['MOS transistor count']]

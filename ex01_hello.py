@@ -1,7 +1,7 @@
 import sys
 
 def hello(name=None):
-    if name is None:
+    if not name:
         return "Hello world!"
     else:
         return f"Hello, {name}!"
