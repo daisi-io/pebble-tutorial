@@ -94,15 +94,15 @@ def mean(field="Age"):
 def median(field="Age"):
     return titanic[field].median()
 
-def percentile(field="Age", percentile=[.25, .5, .75]):
-    return titanic[field].quantile(percentile)
-
 def oldest():
     return titanic.sort_values(by="Age",ascending=False).head(10)
 ```
-
-Create a new Pebble from the script, and you'll be able to test the `mean()`, `median()`, and `percentile()`
-functions. These functions only return a single value. Now try running the `oldest()` function. This returns a complete table of data, which the Pebbles platform UI intelligently detects and displays.
+Create a new Pebble from the script, and you'll be able
+to test the `mean()` and `median()` functions. These
+functions only return a single value. Now try running
+the `oldest()` function. This returns a table
+of data, which the Pebbles platform UI intelligently
+detects and displays.
 
 
 ## Deploying and running a statistical model
