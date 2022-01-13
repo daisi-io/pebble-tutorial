@@ -10,21 +10,21 @@ functions you've defined.
 
 ## Tutorial preparation
 
-You can use our example code for the first few tutorial
-exercises, though you may wish to fork a copy of it
-into your own repository so you can experiment with
-modifying the code or running it locally and seeing
-what happens.
+You can use our example code repository
+(https://github.com/BelmontTechnology/pebble-tutorial)
+for these tutorial exercises, though you may wish to
+fork a copy of it into your own repository so you can
+experiment with modifying the code or running it
+locally and seeing what happens.
 
 ## Hello world
 
-Let's deploy a simple script with a simple function.
-Take a look at the code of `ex01_hello.py`. It contains a
-function `hello` that will be deployed as a web
-service.
-```
+Let's deploy and run a Python function as a web service.
+
+Take a look at the code of `ex01_hello.py`. It contains a function `hello`:
+```python
 def hello(name=None):
-    if name is None:
+    if not name:
         return "Hello world!"
     else:
         return f"Hello, {name}!"
@@ -50,14 +50,14 @@ Pebbles platform UI, and create a new Pebble. Point at
 our base repository
 (`https://github.com/BelmontTechnology/pebble-tutorial`)
 or your own copy of the repository. Use the `main`
-branch, and point at the path `ex01_hello.py`. This is
-the script and the function we'll deploy as a service.
+branch, select the root folder, and point at the script
+`ex01_hello.py`. Once you've specified the file, the platform will create and register a Pebble and display it in the UI.
 
 Now let's try running it in the Pebbles UI.
 
 ...
 
-And let's try calling the endpoint from our browser.
+And let's try calling the endpoint.
 
 ...
 
@@ -71,20 +71,37 @@ whose names begin with an underscore (`_`) character).
 
 The Pebbles platform will also automatically install and use most external packages from PyPI (the Python Package Index, the source for `pip` packages). 
 
-Create a pebble from the `ex02_summarystats.py` file in
-the tutorial repository's `main` branch and see that
-you can call each of the corresponding
-functions.
 
 ...
 
-This code uses the `pandas` data analysis library to
-load a dataset containing information about passengers
-on the Titanic. (Data originally sourced from the [pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).) It then provides functions to return
-the mean, median and percentile of numeric fields using
-functions from `pandas`. You can test the mean, median,
-and percentile functions by calling them on the `Age`
-field (default) or on the `Fare` field.
+The `ex03_summarystats.py` script uses the `pandas`
+data analysis library to load a dataset containing
+information about passengers on the Titanic. (Data
+originally sourced from the
+[pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).)
+It then provides functions to return the mean, median
+and percentile of numeric fields using functions from
+`pandas`. 
+```python
+import pandas as pd
+
+#load and process data into a global structure
+titanic = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/titanic.csv")
+
+def mean(field="Age"):
+    return titanic[field].mean()
+
+def median(field="Age"):
+    return titanic[field].median()
+
+def percentile(field="Age", percentile=[.25, .5, .75]):
+    return titanic[field].quantile(percentile)
+```
+
+Create a new Pebble from the script, and you'll be able to test the mean, median, and percentile
+functions by calling them on the `Age` field (default)
+or on the `Fare` field.
+
 
 ## Deploying and running a statistical model
 
@@ -97,16 +114,37 @@ Pebble from it to deploy the `predict` function.
 In this case, we're loading in a database of historical information about CPU technology from a public cloud (from the [NumPy Moore's Law tutorial](https://numpy.org/numpy-tutorials/content/mooreslaw-tutorial.html).)
 We'll use this to build a model to predict the number of transistors that a new CPU might have this year. 
 We'll create an Ordinary Least Squares linear regression model against the log of this data using the `statsmodels` library, and then call it to backtest and predict.
+```python
+import sys
+import math
+import pandas as pd
+import statsmodels.api as sm
 
-(In this example, we're loading the data from the cloud storage and building the model in our script, but if our data and model were more time-consuming to create, we could create it offline and then load the model from cloud storage instead.)
+# load data file and select and clean data
+data = pd.read_csv('https://belmonttutorial.blob.core.windows.net/data/transistor_data.csv')
+
+x = data['Date of Introduction'].tolist()
+yl = [math.log10(c) for c in data['MOS transistor count']]
+
+# prepare and build model
+x1 = sm.add_constant(x)
+r = sm.OLS(yl, x1).fit()
+
+# call model to predict
+def predict_y(x):
+    return pow(10,r.predict(exog=[1,x]))
+
+if __name__ == "__main__" and len(sys.argv) > 1:
+    print(predict_y(float(sys.argv[1])))
+```
+(In this example, we're loading the data from the cloud
+storage and building the model when we initialize our
+script, but if the model was more time-consuming to
+create, we could create it offline and then load the
+model from cloud storage instead.)
 
 This particular dataset contains information up through 2019. You can call the `predict_y` function with `2021` and see how the predicted values compare against [actual CPUs introduced in 2021](https://en.wikipedia.org/wiki/Transistor_count#Microprocessors).
 
+...
+
 You should note that you call the `predict_y` function, it does _not_ re-load the data and re-compute the model every time, but instead calls the `predict_y` function against the already-built model in the service, as long as the service instance remains running.
-
-## Secure database access
-
-Pebbles web services run in the public cloud, so any
-data they need to access must be available to the
-public internet. But Pebbles may nevertheless
-authenticate in order to access secured resources.
