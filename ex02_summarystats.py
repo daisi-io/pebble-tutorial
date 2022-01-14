@@ -7,7 +7,7 @@ def mean(field="Age"):
     return float(titanic[field].mean())
 
 def median(field="Age"):
-    return titanic[field].median()
+    return float(titanic[field].median())
 
 def oldest():
     return titanic.sort_values(by="Age",ascending=False).head(10)
