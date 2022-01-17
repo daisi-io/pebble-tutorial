@@ -17,6 +17,7 @@ fork a copy of it into your own repository so you can
 experiment with modifying the code or running it
 locally and seeing what happens.
 
+
 ## Hello world
 
 Let's deploy and run a Python function as a web service.
@@ -32,7 +33,7 @@ def hello(name=None):
 
 (Optional) This is just an ordinary Python function. If
 you'd like the try out the function on its own, without
-deploying it to the plaform, the script contains some
+deploying it to the platform, the script contains some
 body code that will call the function if it's invoked
 from the command line. You can clone or copy the script
 to your Python command line and run it:
@@ -51,7 +52,9 @@ our base repository
 (`https://github.com/BelmontTechnology/pebble-tutorial`)
 or your own copy of the repository. Use the `main`
 branch, select the root folder, and point at the script
-`ex01_hello.py`. Once you've specified the file, the platform will create and register a Pebble and display it in the UI.
+`ex01_hello.py`. Once you've specified the file, the
+platform will create and register a Pebble and display
+it in the UI.
 
 Now let's try running it in the Pebbles UI.
 
@@ -69,7 +72,9 @@ definitions, the platform creates a web service
 ("endpoint") for each top-level function (except those
 whose names begin with an underscore (`_`) character).
 
-The Pebbles platform will also automatically install and use most external packages from PyPI (the Python Package Index, the source for `pip` packages). 
+The Pebbles platform will also automatically install
+and use most external packages from PyPI (the Python
+Package Index, the source for `pip` packages).
 
 
 ...
@@ -79,8 +84,8 @@ data analysis library to load a dataset containing
 information about passengers on the Titanic. (Data
 originally sourced from the
 [pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).)
-It then provides functions to return the mean, median
-and percentile of numeric fields as well as the 10 oldests passengers using functions from
+It then provides functions to return the mean and median
+of numeric fields as well as the 10 oldest passengers, using functions from
 `pandas`. 
 ```python
 import pandas as pd

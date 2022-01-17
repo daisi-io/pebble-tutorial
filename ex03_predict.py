@@ -14,7 +14,7 @@ x1 = sm.add_constant(x)
 r = sm.OLS(yl, x1).fit()
 
 # call model to predict
-def predict_y(x):
+def predict_y(x :int):
     return pow(10,r.predict(exog=[1,x]))
 
 if __name__ == "__main__" and len(sys.argv) > 1:
