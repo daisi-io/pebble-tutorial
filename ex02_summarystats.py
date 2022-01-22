@@ -1,13 +1,13 @@
 import pandas as pd
 
 #load and process data into a global structure
-titanic = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/titanic.csv")
+aq = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/air_quality_no2_long.csv")
 
-def mean(field="Age"):
-    return float(titanic[field].mean())
+def mean(city=None):
+    return float( (aq if not city else aq[aq["city"]==city])["value"].mean() )
 
-def median(field="Age"):
-    return float(titanic[field].median())
+def median(city=None):
+    return float( (aq if not city else aq[aq["city"]==city])["value"].median() )
 
-def oldest():
-    return titanic.sort_values(by="Age",ascending=False).head(10)
+def highest():
+    return aq.sort_values(by="value",ascending=False).head(10)

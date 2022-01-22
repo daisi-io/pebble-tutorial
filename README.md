@@ -81,33 +81,33 @@ Package Index, the source for `pip` packages).
 
 The `ex03_summarystats.py` script uses the `pandas`
 data analysis library to load a dataset containing
-information about passengers on the Titanic. (Data
-originally sourced from the
-[pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).)
-It then provides functions to return the mean and median
-of numeric fields as well as the 10 oldest passengers, using functions from
-`pandas`. 
+measurements of air quality. (Data originally sourced
+from the
+[pandas tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/09_timeseries.html).)
+It then provides functions to return the mean and
+median of numeric fields as well as the 10 highest
+observations, using functions from `pandas`.
 ```python
 import pandas as pd
 
 #load and process data into a global structure
-titanic = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/titanic.csv")
+aq = pd.read_csv("https://raw.githubusercontent.com/BelmontTechnology/pebble-tutorial/main/data/air_quality_no2_long.csv")
 
-def mean(field="Age"):
-    return titanic[field].mean()
+def mean(city=None):
+    return float( (aq if not city else aq[aq["city"]==city])["value"].mean() )
 
-def median(field="Age"):
-    return titanic[field].median()
+def median(city=None):
+    return float( (aq if not city else aq[aq["city"]==city])["value"].median() )
 
-def oldest():
-    return titanic.sort_values(by="Age",ascending=False).head(10)
+def highest():
+    return aq.sort_values(by="value",ascending=False).head(10)
 ```
 Create a new Pebble from the script, and you'll be able
 to test the `mean()` and `median()` functions. These
 functions only return a single value. Now try running
-the `oldest()` function. This returns a table
-of data, which the Pebbles platform UI intelligently
-detects and displays.
+the `highest()` function. This returns a table of data,
+which the Pebbles platform UI intelligently detects and
+displays.
 
 
 ## Deploying and running a statistical model
