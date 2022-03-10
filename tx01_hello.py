@@ -7,7 +7,7 @@ def hello(name=None):
         return f"Hello, {name}!"
 
 def goodbye(who=None):
-    if not name:
+    if not who:
         return "Goodbye for now!"
     else:
         return f"Goodbye, {who}!"
